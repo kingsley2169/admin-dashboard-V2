@@ -10,11 +10,11 @@ const users = [
   { user: 'User 5', username: 'username2', email: 'user5@example.com', status: 'Inactive' },
   { user: 'User 6', username: 'username2', email: 'user6@example.com', status: 'Active' },
   // Add more user data here
-];
+]; 
 
 const admins = () => {
   return (
-    <Container>
+    <Container style={{backgroundColor: 'primary'}}>
        <Typography variant="h4" gutterBottom>
         User Table
       </Typography>

@@ -18,9 +18,18 @@ const drawerWidth = 300;
 const DrawerContainer = styled('div')(({ theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
+  backgroundColor: '#232f3e',
+  color: '#fff',
   '& .MuiDrawer-paper': {
     width: drawerWidth,
     boxSizing: 'border-box',
+    backgroundColor: '#232f3e',
+  },
+}));
+
+const HoverableListItem = styled(ListItem)(({ theme }) => ({
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 
@@ -42,27 +51,27 @@ export default function Sidebar({ open, handleDrawerClose }: { open: boolean, ha
         <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <HoverableListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
-            </ListItem>
+            </HoverableListItem>
           ))}
         </List>
         <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <HoverableListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
-            </ListItem>
+            </HoverableListItem>
           ))}
         </List>
       </Drawer>

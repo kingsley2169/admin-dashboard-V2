@@ -6,6 +6,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import StarIcon from '@mui/icons-material/Star'; 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TodayIcon from '@mui/icons-material/Today';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import StarsOutlinedIcon from '@mui/icons-material/StarsOutlined';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -17,10 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
+  
   window?: () => Window;
 }
 
@@ -45,11 +44,11 @@ const Email = ( props: Props ) => {
     <div>
       <Divider/>
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {['Inbox', 'Starred', 'Promotions', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon/> : <MailIcon />}
+                  {index % 2 === 0 ? <InboxIcon /> : <StarBorderOutlinedIcon /> }
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -77,11 +76,11 @@ const Email = ( props: Props ) => {
     <Container>
       <CssBaseline/>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Item>
             <Box>
-              <div>
-                <Button variant='contained'>Contained</Button>
+              <div className='composeButton'>
+                <Button variant='contained' style={{backgroundColor:'#67349d'}}>Compose</Button>
               </div>
               <div>
                 
@@ -93,7 +92,7 @@ const Email = ( props: Props ) => {
         </Grid>
 
 
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <Item>
             <Typography variant="h6">Email Content</Typography>
             <List>

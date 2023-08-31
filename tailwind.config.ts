@@ -1,5 +1,9 @@
 import type { Config } from 'tailwindcss'
-
+module.exports = {
+  corePlugins: {
+    preflight: false,
+  }
+}
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -16,5 +20,6 @@ const config: Config = {
     },
   },
   plugins: [],
+
 }
 export default config
