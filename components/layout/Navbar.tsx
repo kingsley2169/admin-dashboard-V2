@@ -13,7 +13,7 @@ interface AppBarProps extends MuiAppBarProps {
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
-  backgroundColor: '#232f3e',
+  backgroundColor: '#67349d',
   boxShadow: 'none',
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
@@ -43,7 +43,7 @@ export default function Navbar({ open, handleDrawerOpen }: { open: boolean, hand
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Persistent drawer
+          Admin Dashboard
         </Typography>
       </Toolbar>
     </AppBar>

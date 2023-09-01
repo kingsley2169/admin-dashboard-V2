@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -12,28 +12,48 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ChevronRight from '@mui/icons-material/ChevronRight';
+import NextLink from 'next/link';  // Import Link component from your router library
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOutlined';
+import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 
 const drawerWidth = 300;
 
 const DrawerContainer = styled('div')(({ theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
-  backgroundColor: '#232f3e',
+  backgroundColor: '#fff',
   color: '#fff',
   '& .MuiDrawer-paper': {
     width: drawerWidth,
     boxSizing: 'border-box',
-    backgroundColor: '#232f3e',
+    backgroundColor: '#fff',
   },
 }));
 
-const HoverableListItem = styled(ListItem)(({ theme }) => ({
+const menuItems = [
+  { text: 'Home', icon: <InboxIcon />, route: '/' },
+  { text: 'Emails', icon: <MailIcon />, route: '/E-mail' },
+  { text: 'Admins', icon: <AdminPanelSettingsOutlinedIcon />, route: '/admins' },
+  { text: 'Edit Posts', icon: <EditOutlinedIcon/>, route: '/EditPost'},
+  { text: 'Add New Admin', icon: <AccessibilityNewOutlinedIcon/>, route: '/NewAdmin'},
+  { text: 'Add New Post', icon: <PostAddOutlinedIcon/>, route: '/content'},
+  // Add more menu items with icons and routes here
+];
+
+interface SidebarProps {
+  open: boolean;
+  handleDrawerClose: () => void;
+}
+
+const HoverableListItem = styled(ListItemButton)(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.palette.secondary.main,
   },
 }));
 
-export default function Sidebar({ open, handleDrawerClose }: { open: boolean, handleDrawerClose: () => void }) {
+const Sidebar: React.FC<SidebarProps> =({ open, handleDrawerClose }) => {
   const theme = useTheme();
 
   return (
@@ -50,31 +70,19 @@ export default function Sidebar({ open, handleDrawerClose }: { open: boolean, ha
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <HoverableListItem key={text} disablePadding>
+          {menuItems.map((item) => (
+            <NextLink key={item.text} href={item.route}>
               <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
               </ListItemButton>
-            </HoverableListItem>
+            </NextLink>
           ))}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <HoverableListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </HoverableListItem>
-          ))}
-        </List>
       </Drawer>
     </DrawerContainer>
   );
 }
+export default Sidebar;
+

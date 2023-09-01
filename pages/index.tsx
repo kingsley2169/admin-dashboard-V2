@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Avatar, Box, Card, CardContent, Container, Grid, LinearProgress, Paper, Theme, Typography, styled } from '@mui/material';
+import { Avatar, Box, Card, CardContent, Container, Grid, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, styled } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -8,10 +8,31 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import dynamic from 'next/dynamic';
 const BarChart = dynamic(() => import('@mui/x-charts/BarChart').then(mod => mod.BarChart), {
   ssr: false
 });
+const BarPlot = dynamic(() => import('@mui/x-charts/BarChart').then(mod => mod.BarPlot), {
+  ssr: false
+});
+const LinePlot = dynamic(() => import('@mui/x-charts/LineChart').then(mod => mod.LinePlot), {
+  ssr: false
+});
+const ChartContainer = dynamic(() => import('@mui/x-charts/ChartContainer').then(mod => mod.ChartContainer), {
+  ssr: false
+});
+import { AllSeriesType } from '@mui/x-charts/models';
+
+const ChartsXAxis = dynamic(() => import('@mui/x-charts/ChartsXAxis').then(mod => mod.ChartsXAxis), {
+  ssr: false
+});
+const ChartsYAxis = dynamic(() => import('@mui/x-charts/ChartsYAxis').then(mod => mod.ChartsYAxis), {
+  ssr: false
+});
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
@@ -19,81 +40,35 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+const serie = [
+  {
+    type: 'bar',
+    stack: '',
+    yAxisKey: 'eco',
+    data: [2, 5, 3, 4, 1],
+  },
+  {
+    type: 'bar',
+    stack: '',
+    yAxisKey: 'eco',
+    data: [5, 6, 2, 8, 9],
+  },
+  {
+    type: 'line',
+    yAxisKey: 'pib',
+    color: 'red',
+    data: [1000, 1500, 3000, 5000, 10000],
+  },
+] as AllSeriesType[];
 
-const columns = [
-  {
-    field: 'image',
-    headerName: 'Image',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'name',
-    headerName: 'Name',
-    width: 150,
-    editable: true,
-  },
+const sampleData = [
+  { id: 1, avatar: <Avatar><AccountCircleIcon /></Avatar>, user: 'John Doe', status: true, impressions: 1234 },
+  { id: 2, avatar: <Avatar><AccountCircleIcon /></Avatar>, user: 'Jane Smith', status: true, impressions: 987 },
+  { id: 3, avatar: <Avatar><AccountCircleIcon /></Avatar>, user: 'Smith Jane', status: false, impressions: 654 },
+  { id: 4, avatar: <Avatar><AccountCircleIcon /></Avatar>, user: 'Doe John', status: true, impressions: 893 },
+  { id: 5, avatar: <Avatar><AccountCircleIcon /></Avatar>, user: 'Jane Smith', status: false, impressions: 885 },
 ];
 
-const rows = [
-  {
-    id: 1,
-    image: "image URL",
-    type: 'image',
-    name: 'Cheese Burger',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Burgers'
-  },
-  {
-    id: 2,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },
-  {
-    id: 3,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },
-  {
-    id: 4,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },
-  {
-    id: 5,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },{
-    id: 6,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },
-  {
-    id: 7,
-    image: "image URL",
-    name: 'Diet Coke',
-    price: 10_000,
-    menu: 'Daily Menu',
-    category: 'Driks'
-  },
-
-];
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -239,33 +214,68 @@ const index = () => {
           <Grid item xs={4} style={{paddingRight: '0'}}>
             <Card className='statsItem'>
               <Typography className='indexBarChartHeader'>Statistics</Typography>
+                <ChartContainer
+                  series={serie}
+                  width={350}
+                  height={350}
+                  xAxis={[
+                    {
+                      id: 'years',
+                      data: [2010, 2011, 2012, 2013, 2014],
+                      scaleType: 'band',
+                      valueFormatter: (value) => value.toString(),
+                    },
+                  ]}
+                  yAxis={[
+                    {
+                      id: 'eco',
+                      scaleType: 'linear',
+                    },
+                    {
+                      id: 'pib',
+                      scaleType: 'log',
+                    },
+                  ]}
+                >
+                  <BarPlot />
+                  <LinePlot />
+                  <ChartsXAxis label="Years" position="bottom" axisId="years" />
+                  <ChartsYAxis label="Results" position="left" axisId="eco" />
+                  <ChartsYAxis label="PIB" position="right" axisId="pib" />
+                </ChartContainer>
             </Card>
           </Grid>
         </Grid>
       </Box>
         
       <Box sx={{paddingBottom: '40px'}}>
-        <Grid container direction="row" justifyContent="space-between" className='gridContainer' alignItems="flex-start" gridTemplateColumns={'repeat(2, 1fr)'} columnGap={'1'}>
-          <Grid xs={12} md={6}>
-            <Card className='usersItem'>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                
-                checkboxSelection
-                disableRowSelectionOnClick
-              />
-            </Card>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Card className='usersItem'>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                
-                checkboxSelection
-                disableRowSelectionOnClick
-              />
+        <Grid container className='gridContainer' >
+          <Grid className='usersItem'>
+            <Card >
+              <CardContent>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Avatar</TableCell>
+                        <TableCell>User</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Impressions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {sampleData.map((row) => (
+                        <TableRow key={row.id}>
+                          <TableCell>{row.avatar}</TableCell>
+                          <TableCell>{row.user}</TableCell>
+                          <TableCell>{row.status ? <CheckCircleOutlineIcon style={{ color: 'green' }} /> : <HighlightOffIcon style={{ color: 'red' }} />}</TableCell>
+                          <TableCell>{row.impressions}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
             </Card>
           </Grid>
 
